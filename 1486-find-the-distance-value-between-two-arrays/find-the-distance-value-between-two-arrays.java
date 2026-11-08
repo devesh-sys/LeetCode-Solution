@@ -1,35 +1,19 @@
 class Solution {
     public int findTheDistanceValue(int[] arr1, int[] arr2, int d) {
-        Arrays.sort(arr2);
-        int cnt = 0;
-        for (int x : arr1) {
-            int p = binarySearch(arr2, x);
-            boolean ok = true;
-            if (p < arr2.length) {
-                ok &= arr2[p] - x > d;
+    boolean valid;
+        int ans = 0;
+        for(int i = 0; i < arr1.length; i++){
+            valid = true;
+            for(int j = 0; j < arr2.length; j++){
+                if(Math.abs(arr1[i] - arr2[j]) <= d) {
+                    valid = false;
+                    break;
+                }
             }
-            if (p - 1 >= 0 && p - 1 <= arr2.length) {
-                ok &= x - arr2[p - 1] > d;
-            }
-            cnt += ok ? 1 : 0;
-        }
-        return cnt;
-    }
 
-    public int binarySearch(int[] arr, int target) {
-        int low = 0,
-            high = arr.length - 1;
-        if (arr[high] < target) {
-            return high + 1;
+            if(valid) ans++;
         }
-        while (low < high) {
-            int mid = (high - low) / 2 + low;
-            if (arr[mid] < target) {
-                low = mid + 1;
-            } else {
-                high = mid;
-            }
+        
+        return ans;
         }
-        return low;
     }
-}
